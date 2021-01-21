@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import "./App.css";
+import Calendar from "./components/calendar"
+
+export const EventsContext = React.createContext();
+
+const fakeEvents = [
+  {
+    title: "Birthday",
+    date: new Date(2021, 1, 10),
+  },
+  {
+    title: "Put braces",
+    date: new Date(2021, 1, 10),
+  },
+  {
+    title: "Father's Day",
+    date: new Date(2021, 2, 19),
+  },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <EventsContext.Provider value={fakeEvents}>
+        <Calendar startingDate={{month: 3, year: 2021}} />
+      </EventsContext.Provider>
     </div>
   );
 }
