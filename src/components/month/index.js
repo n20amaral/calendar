@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { EventsContext } from "../../App";
+import React from "react";
 import Day from "../day";
 import {
   DaysContainer,
@@ -17,12 +16,6 @@ const getLastDayOfMonth = (month, year) => {
   return nextMonthFirstDay;
 };
 
-const getMonthEvents = (month, year, events) => {
-  return events.filter(
-    ({ date }) => date.getMonth() === month - 1 && date.getFullYear() === year
-  );
-};
-
 const renderDays = (month, year, events) => {
   const lastDayOfMonth = getLastDayOfMonth(month, year);
   const monthDaysCount = lastDayOfMonth.getDate();
@@ -30,7 +23,6 @@ const renderDays = (month, year, events) => {
   const lastWeekDay = lastDayOfMonth.getDay();
   const daySlotsCount = monthDaysCount + 6 - lastWeekDay;
   const rowsCount = Math.floor((daySlotsCount - 1) / 7) + 1;
-  const monthEvents = getMonthEvents(month, year, events);
   const days = [];
 
   for (let i = 1 - firstWeekDay; i <= daySlotsCount; i++) {
@@ -38,7 +30,7 @@ const renderDays = (month, year, events) => {
       days.push(<BlankDay key={`${month}-${i}`} rowsCount={rowsCount} />);
       continue;
     }
-    const dayEvents = monthEvents.filter(({ date }) => date.getDate() === i);
+    const dayEvents = events.filter(({ date }) => date.getDate() === i);
     days.push(
       <Day
         key={`${month}-${i}`}
@@ -52,9 +44,7 @@ const renderDays = (month, year, events) => {
   return days;
 };
 
-const Month = ({ month, year }) => {
-  const events = useContext(EventsContext);
-
+const Month = ({ month, year, events }) => {
   return (
     <Wrapper>
       <WeekdaysContainer>
